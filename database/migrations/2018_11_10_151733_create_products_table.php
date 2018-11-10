@@ -24,9 +24,9 @@ class CreateProductsTable extends Migration
             $table->string('img_url',200);
             $table->foreign('company')->references('id')->on('companies');
             $table->foreign('type')->references('id')->on('categories');
-            $table->string('prop1',200);
-            $table->string('prop2',200);
-            $table->string('prop3',200);
+            $table->string('prop1',200)->nullable();
+            $table->string('prop2',200)->nullable();
+            $table->string('prop3',200)->nullable();
         });
     }
 
