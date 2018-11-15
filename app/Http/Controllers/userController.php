@@ -5,6 +5,9 @@ use Illuminate\Support\Facades\Hash;
 
 use Illuminate\Http\Request;
 use App\user;
+use Tymon\JWTAuth\Exceptions\JWTException;
+use JWTAuth;
+
 class userController extends Controller
 {
     //
@@ -27,7 +30,6 @@ class userController extends Controller
         return \response()->json([
             'message'=>'success',
             'token'=>$token,
-            'status'=>$user->status,
             'first_name'=>$user->first_name,
             'last_name' => $user->last_name,
             'type' => $user->type,
@@ -41,8 +43,8 @@ class userController extends Controller
             'user_name' => 'required|unique:users',
             'password' => 'required',
             'first_name' => 'required',
-            'last_name' => 'last_name',
-            'type' => 'required'
+            'last_name' => 'required',
+            'type' => 'required',
         ]);
 
         $user = new user([
