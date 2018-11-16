@@ -26,3 +26,33 @@ Route::post('/user/login',[
 Route::post('/user/create',[
     'uses'=> 'userController@create'
 ]);
+
+/**
+ * Company API
+ */
+Route::post('/company',[
+    'uses' => 'companyController@create'
+]);
+
+Route::get('/company',[
+    'uses' => 'companyController@fetch'
+]);
+
+Route::delete('/company',[
+    'uses' => 'companyController@delete'
+]);
+/**
+ * Category API
+ */
+Route::post('/category',[
+    'uses' => 'categoryController@create'
+]);
+
+Route::get('/category',[
+    'uses' => 'categoryController@fetch'
+]);
+
+Route::delete('/category',[
+    'uses' => 'categoryController@delete'
+]);
+ 
