@@ -31,10 +31,11 @@ export default{
     },
     methods:{
         OnSubmitted(){
-            axios.post('/login',{
+            axios.post('/user/login',{
                 user_name:this.username,
                 password:this.password
-            })
+            },
+            )
             .then(response=>{
                 this.$emit('login-successful');
             }).catch(function(error){

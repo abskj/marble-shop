@@ -7,6 +7,12 @@
 import Main from './components/main.vue';
 require('./bootstrap');
 import VueRouter from 'vue-router';
+import Login from './components/Login/login.vue';
+import Default from './components/Dashboard/default.vue';
+import AddCategory from './components/Dashboard/category.vue';
+import AddItem from './components/Dashboard/additem.vue';
+import Register from './components/registration.vue';
+
 // import { library } from '@fortawesome/fontawesome-svg-core'
 // import { faCoffee } from '@fortawesome/free-solid-svg-icons'
 // import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
@@ -21,25 +27,29 @@ Vue.use(VueRouter);
 /**
  * the vuejs router
  */
+
+
+
 const routes = [
-    { path: '', component: Main,
-    children:[
-      
-      
-    ]
-  },
+   
+ {path:"",component:Default},
+ {path:'/addcategory',component:AddCategory},
+ {path:'/additem',component:AddItem},
+ {path:'/register',component:Register}
     
    
   ];
   
   const router = new VueRouter({
     mode: 'history',
-    routes: routes
+    routes: routes,
+    
   });
 
   
-Vue.component('example-component', require('./components/main.vue'));
+Vue.component('main-component', require('./components/main.vue'));
 
 const app = new Vue({
-    el: '#app'
+    el: '#app',
+    router
 });
