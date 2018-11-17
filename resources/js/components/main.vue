@@ -12,6 +12,7 @@
 </template>
 
 <script>
+
 import Register from './registration.vue';
 import Login from './Login/login.vue';
 import Dashboard from './Dashboard/dashboard.vue';
