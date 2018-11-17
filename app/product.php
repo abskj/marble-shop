@@ -14,7 +14,6 @@ class product extends Model
         'company',
         'type',
         'img_url',
-        'company',
         'type'
     ];
 

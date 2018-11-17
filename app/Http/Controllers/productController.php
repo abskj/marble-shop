@@ -22,10 +22,13 @@ class productController extends Controller
             'quantity' => $request->input('quantity'),
             'company' => $request->input('company'),
             'type' => $request->input('type'),
-            'company' => $request->input('company'),
             'img_url' => "blank",
         ]);
         $item->save();
+        return response()->json([
+            "code" => 1,
+            "product_id" => $item->id,
+        ]);
 
     }
 }
