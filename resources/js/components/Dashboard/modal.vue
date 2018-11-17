@@ -1,27 +1,50 @@
 <template>
-    <div>
-        <form>
-            <legend>Image Upload</legend>
-            <div class="form-group">
-                <label for="image" >Upload Image</label>
-                <input type="file"  id="image" class="form-control" placeholder="Image">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-2">
+                <img :src="image" class="img-responsive">
             </div>
-            <button type="submit" class="btn btn-primary" @click="showModal = false">Submit</button>
-        </form>
+            <div class="col-md-8">
+                <input type="file" v-on:change="onFileChange" class="form-control">
+            </div>
+            <div class="col-md-2">
+                <button class="btn btn-success btn-block" @click="upload">Upload</button>
+            </div>
+        </div>
     </div>
 </template>
-
-<script>
-export default {
-    data(){
-        return{
-            // OpenModal:false
-        }
-    },
-}
-</script>
-
-<style>
-
-
+<style scoped>
+    img{
+        max-height: 36px;
+    }
 </style>
+<script>
+    export default{
+        data(){
+            return {
+                image: ''
+            }
+        },
+        methods: {
+            onFileChange(e) {
+                let files = e.target.files || e.dataTransfer.files;
+                if (!files.length)
+                    return;
+                this.createImage(files[0]);
+            },
+            createImage(file) {
+                let reader = new FileReader();
+                let vm = this;
+                reader.onload = (e) => {
+                    vm.image = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            },
+            upload(){
+                axios.post('/api/product/upload',{image: this.image}).then(response => {
+
+                });
+            }
+        }
+    }
+</script>
