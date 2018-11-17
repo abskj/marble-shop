@@ -56,3 +56,19 @@ Route::delete('/category',[
     'uses' => 'categoryController@delete'
 ]);
  
+/**
+ * Product API
+ */
+
+ Route::post('/product/create', [
+     'uses' => 'productController@create'
+ ]);
+ Route::post('/product/upload', [
+    'uses' => 'productController@image'
+]);
+Route::post('/product/get', [
+    'uses' => 'productController@get'
+]);
+Route::post('/product/fetch', [
+    'uses' => 'productController@fetch'
+]);
