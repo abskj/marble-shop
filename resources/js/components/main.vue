@@ -20,7 +20,7 @@ import AddItem from './Dashboard/additem.vue';
     export default {
         data(){
             return{
-                logged_in:true,
+                logged_in:false,
             }
         },
         mounted() {

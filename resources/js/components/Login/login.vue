@@ -31,7 +31,7 @@ export default{
     },
     methods:{
         OnSubmitted(){
-            axios.post('/user/login',{
+            axios.post('/api/user/login',{
                 user_name:this.username,
                 password:this.password
             },

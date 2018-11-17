@@ -26,13 +26,13 @@
                         <label for="type">Type</label>
                         <select class="form-control" id="type" v-model="type">
                             <option>category</option>
-                            <option>2</option>
+                            <option>1</option>
                             <option>3</option>
                             <option>4</option>
                             <option>5</option>
                         </select>
                     </div>
-                    <button type="submit" class="btn btn-primary" @click="showModal = true">Submit</button>
+                    <button type="submit" class="btn btn-primary" >Submit</button>
                 </form>
             </div>
         </div>
@@ -57,11 +57,20 @@ export default {
     },
     methods:{
         OnSubmit(){
-                axios.post('/additem',{
-                    name:name,
-                    price:price,
-                    quantity:quantity
-                })
+                axios.post('/api/product/create',{
+                    'name' : this.name,
+                    'price' : this.price,
+                    'quantity' : this.quantity ,
+                    'company' : this.company ,
+                    'type' : this.type ,
+                }).then( response => {
+                    console.log(response)
+                    this.showModal =true
+                }).catch(
+                    err => {
+                        alert(err)
+                    }
+                )
         }
     }
     

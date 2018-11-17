@@ -24,8 +24,8 @@ export default {
     },
     methods:{
         Onsubmit(){
-            axios.post('/category',{
-                category:this.category,
+            axios.post('/api/category',{
+                name:this.category,
             })
             .then(function (response){
                 console.log(response);
