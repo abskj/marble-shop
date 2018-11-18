@@ -12,6 +12,7 @@ import Default from './components/Dashboard/default.vue';
 import AddCategory from './components/Dashboard/category.vue';
 import AddItem from './components/Dashboard/additem.vue';
 import Register from './components/registration.vue';
+import Transaction from './components/Dashboard/transaction.vue';
 
 // import { library } from '@fortawesome/fontawesome-svg-core'
 // import { faCoffee } from '@fortawesome/free-solid-svg-icons'
@@ -35,8 +36,8 @@ const routes = [
  {path:"",component:Default},
  {path:'/addcategory',component:AddCategory},
  {path:'/additem',component:AddItem},
- {path:'/register',component:Register}
-    
+ {path:'/register',component:Register},
+ {path:'/transaction',component:Transaction}
    
   ];
   
