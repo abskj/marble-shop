@@ -16,5 +16,4 @@ class product extends Model
         'img_url',
         'type'
     ];
-
 }
