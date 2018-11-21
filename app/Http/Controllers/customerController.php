@@ -16,7 +16,7 @@ class customerController extends Controller
         try{
             $cust=new Customer([
                 'name' => $request->input('name'),
-                'mobile' => $request->input('mobile'),
+                'mobile_no' => $request->input('mobile'),
                 'address' => $request->input('address'),
             ]);
             $cust->save();
@@ -51,7 +51,7 @@ class customerController extends Controller
              $customer = Customer::where('mobile_no', $request->input('mobile'))->get()->first();
              if ($customer === null) {
                  return response()->json([
-                     'code' => 5,
+                     'code' => 5,6+`
                      'message' => 'customer not found'
                  ], 401);
              } else {
@@ -71,4 +71,9 @@ class customerController extends Controller
              ], 501);
          }
      }
+}
+             }
+            }
+        }
+    }
 }

@@ -72,3 +72,35 @@ Route::post('/product/get', [
 Route::post('/product/fetch', [
     'uses' => 'productController@fetch'
 ]);
+/**
+ * Customer API
+ * 
+ */
+Route::post('/customer/create',[
+    'uses' => 'customerController@create'
+]);
+Route::post('/customer/get',[
+    'uses' => 'customerController@get'
+]);
+/**
+ * Billing API
+ */
+Route::post('/bill/initiate',[
+    'uses' => 'billController@initiateTransaction'
+]);
+Route::post('/bill/part',[
+    'uses' => 'billController@partTransaction'
+]);
+Route::post('/bill/getDetails',[
+    'uses' => 'billController@getPartTransactions'
+]);
+Route::post('/bill/reset',[
+    'uses' => 'billController@reset'
+]);
+Route::post('/bill/remove',[
+    'uses' => 'billController@removeItem'
+]);
+Route::post('/bill/complete',[
+    'uses' => 'billController@complete'
+]);
+
