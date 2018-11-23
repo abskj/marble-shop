@@ -91,7 +91,7 @@ Route::post('/bill/initiate',[
 Route::post('/bill/part',[
     'uses' => 'billController@partTransaction'
 ]);
-Route::post('/bill/getDetails',[
+Route::post('/bill/get',[
     'uses' => 'billController@getPartTransactions'
 ]);
 Route::post('/bill/reset',[
