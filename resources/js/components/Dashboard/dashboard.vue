@@ -9,7 +9,7 @@
            </div>
            <div class="row">
                <div class="col s12">
-                   <router-view></router-view>
+                   <router-view :user="user" ></router-view>
                </div>
            </div>
     </div>
@@ -21,6 +21,16 @@ import Navbar from './navbar.vue';
 export default{
     components:{
         'app-nav':Navbar,
+    },
+    data(){
+        return {
+            user:[
+                {
+                    'user_name': 'test',
+                    role: 1
+                }
+            ]
+        }
     }
 }
 </script>

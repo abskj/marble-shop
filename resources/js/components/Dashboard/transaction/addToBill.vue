@@ -7,7 +7,7 @@
                                 <div class="row">
                                     <div class="row">
                                        <div class="col m4 label">
-                                              Food Category:
+                                              Item Type:
                                       </div>
                                         <div class="col m4">
                                                 <input disabled type="text" minlength="10" maxlength="200"    v-model="food_cat">
@@ -22,14 +22,14 @@
                                         <div class="col m4">
                                              
                                             <div class="row">
-                                                      <input autocomplete="off" type="text" @keydown.enter.prevent="selectItem" @keyup.up.prevent="changeSelect(-1)" @keyup.down.prevent="changeSelect(+1)"  v-model="item_name" @focus="getItems" @blur="hideItemList" id="item-search-text">
+                                                      <input autocomplete="off" type="text" @keydown.enter.prevent="selectItem" @keyup.up.prevent="changeSelect(-1)" @keyup.down.prevent="changeSelect(+1)"  v-model="name" @focus="getItems" @blur="hideItemList" id="item-search-text">
                                             </div>
                                                <div class="row white ">
                                       
                                                     <ul id="item-list" v-bind:class="listClassObject">
                                                         <li v-for="item,index in items" @mousedown="selectItemC(index)">
                                                          
-                                                            {{item.item_name}}
+                                                            {{item.name}}
                                                            
                                                         </li>
                                                     
@@ -41,10 +41,10 @@
                                         <div class="col m6">
                                             <div class="row">
                                                 <div class="col m3 label">
-                                                        Code:
+                                                        Company:
                                                 </div>
                                                 <div class="col m3">
-                                                    <input disabled  v-model="item_code">
+                                                    <input disabled  v-model="item_company">
         
                                                 </div>
                                              </div>
@@ -106,9 +106,10 @@ export default {
                 hide: true,
             },
             select:1,
-             item_name:'',
+             name:'',
             items:[{}],
-            item_code:'',
+            item_id:'',
+            item_company:'',
             item_rate:'',
             item_quantity:0,
             first_tran:1,
@@ -121,7 +122,7 @@ export default {
         
     },
     watch:{
-        item_name:{
+        name:{
            handler:  function(oldval,newval){
              while(this.items.length>0){
                  this.items.pop()
@@ -129,7 +130,7 @@ export default {
             console.log(this.allItems)
 
             for(var i=0;i< this.allItems.length;i++){
-                   var temp=this.allItems[i].item_name.toLowerCase().indexOf(this.item_name.toLowerCase());
+                   var temp=this.allItems[i].name.toLowerCase().indexOf(this.name.toLowerCase());
                    if(temp>-1){
                        this.items.push(this.allItems[i])
                    }
@@ -158,7 +159,7 @@ export default {
             handler: function (oldval,newval) {
                     this.listClassObject.hide=true;
                     this.select=1;
-                    this.item_name='';
+                    this.name='';
                     this.items=[{}];
                     this.item_code='';
                     this.item_rate='';
@@ -167,6 +168,7 @@ export default {
                     this.tran_id='';
                     this.food_cat='';
                     this.allItems=[{}];
+                    this.item_company='';
                     document.getElementById('addToBillButton').disabled=false
             }
         }
@@ -184,15 +186,14 @@ export default {
              getItems(){
                
             
-             axios.post(backend+'/get-foodItem', {
+             axios.post('/api'+'/product/get', {
                 'user_name':this.user[0]['user_name'],
                 'role': this.user[0]['role'],
-                'branch_id':this.user[0]['branch_id'],
             },{
                 headers:[]
             }).then((response) => {
                 this.code=response.data.code;
-            this.allItems=response.data.data;
+            this.allItems=response.data.products;
             this.listClassObject.hide=false;
         }
 
@@ -215,18 +216,19 @@ export default {
       
        selectItem(){
            var item=this.items[this.select-1];
-           this.item_name=item.item_name;
-           this.item_code=item.item_id;
-           this.food_cat=item.cat_id;
-           this.item_rate=item.item_rate;
+           this.name=item.name;
+           this.item_id=item.id;
+           this.item_company = item.company.name;
+           this.food_cat=item.category.name;
+           this.item_rate=item.price;
           this.items=[{}];
-          document.getElementById('item-search-text').value=item.item_name;
+          document.getElementById('item-search-text').value=item.name;
           this.listClassObject.hide=true;
         },
     
    addItems(){
         document.getElementById('addToBillButton').disabled=true
-        this.$emit('item-added',this.item_code,this.item_quantity);
+        this.$emit('item-added',this.item_id,this.item_quantity);
     },
 
     

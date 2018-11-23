@@ -1,8 +1,13 @@
 <template>
-    <div id="trans">
-         <!-- <div id="activeTransactions" class="row">
+   
+    <div class="row">
+        <div class="col m3 active-tran">
              <app-active-transactions v-on:changeActive="retrieveActive" v-bind:list="active"></app-active-transactions>
-         </div> -->
+
+        </div>
+        <div class="col m9">
+             <div id="trans">
+        
         <div class="row">
             <h4 class="heading container ">
             Transaction
@@ -84,7 +89,9 @@
            
                    <settle-bill v-on:complete="finish" v-bind:tranId="this.tran_id" v-bind:flag="settlementControl"></settle-bill>
          </div>
-        
+
+    </div>
+        </div>
     </div>
 </template>
 
@@ -119,6 +126,7 @@ export default {
             cust_exists:false,
             cust_name:'',
             item_name:'',
+            cust_id:'',
             items:[{}],
             item_code:'',
             item_rate:'',
@@ -164,7 +172,7 @@ export default {
     },
     methods:{
         initActiveTrans(){
-             axios.post(backend+'/activeTrans', {
+             axios.post('/api'+'/activeTrans', {
                                        
                                         'user_name' :this.user[0]['user_name'],
                                         'branch_id':this.user[0]['branch_id'],
@@ -276,9 +284,9 @@ export default {
            
 
         },
-        fillitems(code,qty){
+        fillitems(id,qty){
             console.log('add to button pressed')
-            this.item_code=code;
+            this.item_id=id;
             this.item_quantity=qty;
             
             if(this.first_tran===1){
@@ -287,19 +295,20 @@ export default {
                if(this.cust_exists===false){
                      console.log('new customer')
                    //add customer
-                            axios.post(backend+'/customerCreate', {
+                            axios.post('/api'+'/customer/create', {
                             'mobile': this.cust_no,
                             'name' :this.cust_name,
                             'address':this.cust_addr,
                         },{
                             headers:[]
                         }).then(
-                            () => {
+                            (response) => {
                                 this.cust_exists=true;
+                                this.cust_id = response.data.customer.id;
                                 M.toast({html: 'Customer added'}) ;
                                  //initialize transaction
-                                    axios.post(backend+'/start-transaction', {
-                                        'cust_id': this.cust_no,
+                                    axios.post('/api'+'/bill/initiate', {
+                                        'cust_id': this.cust_id,
                                         'user_name' :this.user[0]['user_name'],
                                         'branch_id':this.user[0]['branch_id'],
 
@@ -330,8 +339,8 @@ export default {
                        
                }
                else{
-                    axios.post(backend+'/start-transaction', {
-                                        'cust_id': this.cust_no,
+                    axios.post('/api'+'/bill/initiate', {
+                                        'cust_id': this.cust_id,
                                         'user_name' :this.user[0]['user_name'],
                                         'branch_id':this.user[0]['branch_id'],
                         'steward_id' :this.steward_id,
@@ -365,7 +374,7 @@ export default {
        
         transactionSubmit(){
            
-            axios.post(backend+'/complete-transaction',{
+            axios.post('/api'+'/bill/complete',{
                 'transaction_id' :this.tran_id,
                 'discount_rate' :this.discount_rate/100,
             }).then(
@@ -388,16 +397,16 @@ export default {
         },
         getCustomerInfo(){
 
-            axios.post(backend+'/customer', {
+            axios.post('/api'+'/customer/get', {
                 'mobile': this.cust_no,
             },{
                 headers:[]
             }).then(
                 response=>{
-                    this.cust_no=response.data.customer_mobile,
-                    this.cust_id=response.data.customer_id,
-                    this.cust_addr=response.data.customer_addr,
-                    this.cust_name=response.data.customer_name,
+                    this.cust_no=response.data.customer_data.mobile_no,
+                    this.cust_id=response.data.customer_data.id,
+                    this.cust_addr=response.data.customer_data.address,
+                    this.cust_name=response.data.customer_data.name,
                     this.cust_exists=true;
                     this.disableCustFields();
                 }
@@ -414,16 +423,12 @@ export default {
             );
         },
         addItemToBill(){
-               axios.post(backend+'/part-transaction', {
-                            'cust_id': this.cust_no,
+               axios.post('/api'+'/bill/part', {
                             'user_name' :this.user[0]['user_name'],
-                            'branch_id':this.user[0]['branch_id'],
-                            'cat_id':this.food_cat,
-                            'qty':this.item_quantity,
-                            'rate':this.item_rate,
-                            'tran_id':this.tran_id,
-                            'item_id':this.item_code,
-                            'item_name':this.item_name,
+                            'product_id':this.item_id,
+                            'quantity':this.item_quantity,
+                            'bill_id':this.tran_id,
+                          
 
 
                         },{
@@ -451,9 +456,7 @@ export default {
 .row{
     width: 100%;
 }
-div:hover{
-    border: 1px red solid;
-}
+
 
 #trans input{
     color:black!important;
@@ -489,6 +492,9 @@ div:hover{
     color:white;
    max-height: 85vh;
    width: 15vw;
+}
+.active-tran{
+    max-width: 40vh;
 }
 
 

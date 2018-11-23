@@ -14,11 +14,11 @@
         </thead>
         <tbody>
             <tr v-for="item in items">
-                <td>{{item.item_name}}</td>
-                <td>{{item.item_id}}</td>
-                <td>{{item.rate}}</td>
-                <td>{{item.qty}}</td>
-                <td>{{item.total}}</td>
+                <td>{{item.product.name}}</td>
+                <td>{{item.product_id}}</td>
+                <td>{{item.price}}</td>
+                <td>{{item.quantity}}</td>
+                <td>{{item.quantity * item.price}}</td>
                 <td class="delete" @click="deleteItem(item)" >
                     <div>
                         <i class="material-icons red-text">close</i>
@@ -79,7 +79,7 @@ export default {
     },
     methods:{
         deleteItem(item){
-            axios.post(backend+'/del-item-transaction',{
+            axios.post('/api'+'/bill/remove',{
                 'tran_id' :item.id
             }).then(
                 (response) => {
@@ -90,8 +90,8 @@ export default {
             )
         },
         fetchItems(){
-            axios.post(backend+'/get-transaction',{
-                'transaction_id' : transactionId,
+            axios.post('/api/bill/get',{
+                'bill_id' : transactionId,
             },{
                 headers:[
                    
