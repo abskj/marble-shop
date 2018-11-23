@@ -103,4 +103,13 @@ Route::post('/bill/remove',[
 Route::post('/bill/complete',[
     'uses' => 'billController@complete'
 ]);
-
+/**
+ * Settlement API
+ * 
+ */
+Route::post('/settlement/settle',[
+    'uses' => 'settlementController@settle'
+]);
+Route::post('/settlement/generate',[
+    'uses' => 'settlementController@generatePdf'
+]);

@@ -3,7 +3,7 @@
          <div class="modal-content green lighten-3 shadow" style="width:100%">
                    <div class="">
                        <div class="center">
-                        <h3 class="heading">
+                        <h3 class="heading thin">
                             SETTLE THE TRANSACTION
                         </h3>
                    </div>
@@ -28,7 +28,7 @@
                                  </div>
                                  <div class="col m4">
                                      <label for="amtpaid">Amount Paid</label>
-                                     <input type="number" step="0.01" v-model="amount_paid" id="amtpaid">
+                                     <input type="number" step="0.01" :min="0" :max="billedAmt" v-model="amount_paid" id="amtpaid">
                                  </div>
                               </div>
                             <div class="row">
@@ -101,6 +101,16 @@ export default {
                 this.bank=0;
             }
         },
+        amount_paid:{
+            handler: function(nu,old){
+                if(nu<0){
+                    this.amount_paid =old
+                }
+                if(nu>this.billedAmt){
+                    this.amount_paid = old
+                }
+            }
+        }
        
        
     },
@@ -125,15 +135,16 @@ export default {
             this.listClassObject1.hide=true
         },
         settle(){
-            axios.post(backend+'/settle',{
+            axios.post('/api/settlement/settle',{
                 'tran_id' : this.tranId,
                 'settle_mode' : this.settle_flag,
+                'amount_paid' : this.amount_paid,
                  'card_number':this.card_no,
                  'bank':this.bank,
             }).then((response)=>{
                 M.toast({html:'Transaction completed'})
                 document.getElementsByTagName("body")[0].style.overflow="auto";
-                                axios.post(backend+'/printTest',{
+                                axios.post('api/settle/generate',{
                                 'tran_id' :this.tranId,
                                
                             }).then(
