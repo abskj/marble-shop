@@ -87,7 +87,7 @@
         </div>
         <div id="modal1" class="modal">
            
-                   <settle-bill v-on:complete="finish" v-bind:tranId="this.tran_id" v-bind:flag="settlementControl"></settle-bill>
+                   <settle-bill :billedAmt="billed_amount" v-on:complete="finish" v-bind:tranId="this.tran_id" v-bind:flag="settlementControl"></settle-bill>
          </div>
 
     </div>
@@ -137,6 +137,7 @@ export default {
             discount_rate:0.00,
             resetController:1,
             settlementControl:0,
+            billed_amount:0.0,
 
         }
     },
@@ -379,6 +380,7 @@ export default {
                 'discount_rate' :this.discount_rate/100,
             }).then(
                 (response) =>{
+                    this.billed_amount = response.data.bill.final;
                      var elems=document.getElementById('modal1');
                    this.settlementControl++;
                        var modal=M.Modal.init(elems, {
@@ -494,10 +496,10 @@ export default {
    width: 15vw;
 }
 .active-tran{
-    max-width: 40vh;
+    max-width: 35vh;
+     position: static;
+     overflow-y: scroll;
+    overflow-wrap: normal;
+    box-shadow: 5px 5px 5px grey;
 }
-
-
-
-
 </style>

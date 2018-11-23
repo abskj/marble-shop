@@ -18,7 +18,7 @@
 </head>
 <style>
 div:hover{
-    border:1px red solid;
+    border:0px red solid;
 }
 </style>
 <body>

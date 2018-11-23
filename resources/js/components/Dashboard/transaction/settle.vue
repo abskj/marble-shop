@@ -1,20 +1,43 @@
 <template>
-     <div>
-         <div class="modal-content">
-                   <div class="center">
-                        <h4>SETTLE THE TRANSACTION</h4>
+     <div class="container">
+         <div class="modal-content green lighten-3 shadow" style="width:100%">
+                   <div class="">
+                       <div class="center">
+                        <h3 class="heading">
+                            SETTLE THE TRANSACTION
+                        </h3>
                    </div>
                     <p>Powered by TechBongo</p>
                     </div>
+                   </div>
                   <form @submit.prevent="settle">
+
                           <div class="row">
+                              <div class="row">
+                                 <div class="col m3">
+                                      <label for="">
+                                          Amount Billed:</label> <h4 class="blue-text">
+                                             ₹ {{billedAmt}}
+                                          </h4>
+                                 </div>
+                                 <div class="col m3">
+                                     <label for=""> Amount Due</label>
+                                     <h4 class="red-text">
+                                         ₹ {{billedAmt - amount_paid}}
+                                     </h4>
+                                 </div>
+                                 <div class="col m4">
+                                     <label for="amtpaid">Amount Paid</label>
+                                     <input type="number" step="0.01" v-model="amount_paid" id="amtpaid">
+                                 </div>
+                              </div>
                             <div class="row">
-                                <div class="col m3 offset-m1">
+                                <div class="col m3">
                                 <div style="margin-top:25px;">
                                     Choose Payment Option
                                 </div>
                             </div>
-                            <div class="input-field col m4 ">
+                            <div class="input-field col m3 ">
                                 <select class="browser-default" v-model="settle_flag">
                                 
                                 <option @click="showBankDetails" value="1">Card</option>
@@ -65,6 +88,9 @@ export default {
         },
         flag:{
             type:Number
+        },
+        billedAmt:{
+            type:Number
         }
     },
     watch:{
@@ -85,6 +111,7 @@ export default {
             settle_flag:0,
             card_no:0,
             bank: '',
+            amount_paid:'',
             listClassObject1:{
                 hide:true,
             },
@@ -130,6 +157,8 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+.parent{
+    padding:10px;
+}
 </style>

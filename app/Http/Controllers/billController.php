@@ -172,15 +172,17 @@ class billController extends Controller
             $total += ($tran->quantity) * ($tran->price);
         }
         $dr = $request->input('discount_rate');
-        $net_total = $total - ($dr * $total);
         $bill = Bill::where('id', $request->input('transaction_id'))->first();
+        $bill->total = $total;
+
         $bill->discount = $dr * $total;
         $bill->final = $bill->total -$bill->discount;
        
-        $bill->save();
+        $bill->update();
         return response()->json([
             'code' => 1,
-            'message' => 'transaction completed'
+            'message' => 'transaction completed',
+            'bill' => $bill,
         ]);
 
     }
