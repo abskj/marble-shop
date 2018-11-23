@@ -1,9 +1,9 @@
 <template>
    <div class="row">
-       <div v-if="logged_in">
-           <app-dashboard @logout="logout"></app-dashboard>
+       <div v-if="logged_in" class="col s12 ">
+           <app-dashboard @logout="logout" ></app-dashboard>
        </div>
-       <div v-else>
+       <div v-else class="col s12" >
            <app-login @login-successful="LoginSuccess"></app-login>
        </div>
        <!-- <router-view></router-view> -->
@@ -20,7 +20,7 @@ import AddItem from './Dashboard/additem.vue';
     export default {
         data(){
             return{
-                logged_in:false,
+                logged_in:true,
             }
         },
         mounted() {
@@ -42,3 +42,6 @@ import AddItem from './Dashboard/additem.vue';
        }
     }
 </script>
+<style scoped>
+
+</style>

@@ -1,19 +1,19 @@
 <template>
-    <div>
-        <h1>
-            Dashboard
-        </h1>
-        <div class="container">
-            <div class="row">
-                <app-nav/>
-            </div>
-        </div>
-        <div>
-            <router-view></router-view>
-        </div>
-        
-        
+    <div >
+       <div class="row">
+           <div class="col s12">
+              
+                   <app-nav></app-nav>
+               </div>
+              
+           </div>
+           <div class="row">
+               <div class="col s12">
+                   <router-view></router-view>
+               </div>
+           </div>
     </div>
+
 </template>
 <script>
 import Navbar from './navbar.vue';

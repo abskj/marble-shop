@@ -75,8 +75,7 @@ class billController extends Controller
             $new_q = $q + $request->input('quantity');
             $tranx->quantity = $new_q;
             $rate = $tranx->rate;
-            $total = $rate * $new_q;
-            $tranx->total = $total;
+           
 
             $tranx->update();
             return response()->json([
@@ -92,7 +91,7 @@ class billController extends Controller
             'bill_id' => $request->input('bill_id'),
             'product_id' => $request->input('product_id'),
             'quantity' => $request->input('quantity'),
-            'price' => $price,
+            'price' => $rate,
             ]);
 
         $tran->save();
@@ -108,8 +107,11 @@ class billController extends Controller
             'bill_id' => 'required'
         ]);
         $transactions = part_bill::where('bill_id', $request->input('bill_id'))->get();
-        $bill = Bill::where('bill_id', $request->input('bill_id'))->get()->first();
+        $bill = Bill::where('id', $request->input('bill_id'))->get()->first();
+        foreach($transactions as $t){
+            $t->product = product::where('id' , $t->product_id)->first();
 
+        }
         return response()->json([
             'transactions' => $transactions,
             'bill' => $bill,
@@ -182,77 +184,5 @@ class billController extends Controller
         ]);
 
     }
-    public function removeItem(Request $request)
-    {
-        $this->validate($request, [
-            'tran_id' => 'required'
-        ]);
-        try {
-            $tran = part_bill::find($request->input('tran_id'));
-            $tran->delete();
-            return response()->json([
-                'code' => 1,
-                'message' => 'item removed from list'
-            ], 201);
-        } catch (Throwable $e) {
-            return response()->json([
-                'code' => 3,
-                'message' => 'item not found'
-            ], 404);
-        }
-    }
+ 
 }
-    // public function settle(Request $request)
-    // {
-    //     $this->validate($request,
-    //         [
-    //             'tran_id' => 'required|unique:settlement',
-    //             'settle_mode' => 'required',
-
-    //         ]);
-    //     $settlement = null;
-    //     $tid = $request->input('tran_id');
-
-    //     $bill = DB::table('bill_transaction')->where('tran_id', $tid)->first();
-
-    //     if ($request->input('settle_mode') == 0) {
-    //         //assuming 1 for card and 0 for cash
-    //         $settlement = new settlement([
-    //             'tran_id' => $bill->tran_id,
-    //             'customer_id' => $bill->cust_id,
-    //             'bill_amount' => $bill->bill_amount,
-    //             'settle_mode' => 0,
-    //             'status_flag' => 0,
-
-
-    //         ]);
-
-    //     } else {
-
-    //         //assuming 1 for card and 0 for cash
-    //         $settlement = new settlement([
-    //             'tran_id' => $bill->tran_id,
-    //             'customer_id' => $bill->cust_id,
-    //             'bill_amount' => $bill->bill_amount,
-    //             'settle_mode' => 1,
-    //             'status_flag' => 1,
-    //             'card_number' => $request->input('card_number'),
-    //             'bank' => $request->input('bank'),
-    //         ]);
-    //     }
-    //     $settlement->save();
-    //      // $username = urlencode("DUMMY"); 
-    //     //
-    //     // $msg_token = urlencode("DUMMY"); 
-    //     // $sender_id = urlencode("TKBNGO"); // optional (compulsory in transactional sms) 
-    //     // $message = urlencode("Message".$x."text will be provided"); 
-    //     // $mobile = urlencode($request->input('cust_id')); 
-
-    //     // $api = "http://managed.sms.techbongo.com/api/send_transactional_sms.php?username=".$username."&msg_token=".$msg_token."&sender_id=".$sender_id."&message=".$message."&mobile=".$mobile.""; 
-
-    //     // $response = file_get_contents($api);
-    //     return response()->json([
-    //         'code' => 1,
-    //     ]);
-    // }
-

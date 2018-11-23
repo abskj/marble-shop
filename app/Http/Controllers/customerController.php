@@ -18,12 +18,14 @@ class customerController extends Controller
                 'name' => $request->input('name'),
                 'mobile_no' => $request->input('mobile'),
                 'address' => $request->input('address'),
+                'due' => 0.0
             ]);
             $cust->save();
         }catch (\Throwable $e){
             return response()->json([
                 'code'=>4,
                 'message'=>'customer could not be created',
+                'error' => $e,
             ],400);
         }
          // $username = urlencode("DUMMY"); 
@@ -38,6 +40,7 @@ class customerController extends Controller
          // $response = file_get_contents($api);
         return response()->json([
             'code'=>1,
+            'customer' => $cust,
             'message'=>'customer created successfully',
         ]);
      }
@@ -51,29 +54,23 @@ class customerController extends Controller
              $customer = Customer::where('mobile_no', $request->input('mobile'))->get()->first();
              if ($customer === null) {
                  return response()->json([
-                     'code' => 5,6+`
+                     'code' => 5,
                      'message' => 'customer not found'
                  ], 401);
              } else {
                  return response()->json([
                      'code' => 1,
-                     'customer_name' => $customer->name,
-                     'customer_id' => $customer->id,
-                     'customer_mobile' => $customer->mobile_no,
-                     'customer_addr' => $customer->address,
+                     'customer_data' => $customer,
+                    
                  ]);
              }
  
          } catch (\Throwable $e) {
              return response()->json([
                  'code' => 4,
-                 'message' => 'some unknown error occures'
+                 'message' => 'some unknown error occures',
+                 'error' => $e
              ], 501);
          }
      }
-}
-             }
-            }
-        }
-    }
 }

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 use App\product;
+use App\company;
+use App\Category;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use \Validator;
@@ -48,4 +50,17 @@ class productController extends Controller
         
     }
 }
+    public function get(Request $request){
+       
+        $items = product::all();
+        foreach($items as $item){
+            
+            $item->category=  Category::where('id',$item->type)->first();
+            $item->company=  company::where('id',$item->company)->first();
+        }
+        return response()->json([
+            "code" => 1,
+            "products" => $items,
+        ]);
+    }
 }

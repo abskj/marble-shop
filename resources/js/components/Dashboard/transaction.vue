@@ -447,7 +447,13 @@ export default {
 }
 </script>
 
-<style>
+<style >
+.row{
+    width: 100%;
+}
+div:hover{
+    border: 1px red solid;
+}
 
 #trans input{
     color:black!important;
