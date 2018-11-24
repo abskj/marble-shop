@@ -36,7 +36,7 @@ class categoryController extends Controller
     public function fetch(Request $request){
         $Category_data = Category::all();
         return response()->json([
-            'companies' => $Category_data
+            'categories' => $Category_data
         ]);
     }
 }

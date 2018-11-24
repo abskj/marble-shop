@@ -72,6 +72,9 @@ Route::post('/product/get', [
 Route::post('/product/fetch', [
     'uses' => 'productController@fetch'
 ]);
+Route::get('product/images/{file}',
+    'productController@getImage'
+);
 /**
  * Customer API
  * 
